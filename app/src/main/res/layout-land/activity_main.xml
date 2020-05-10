@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/ic_background"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="10dp"
     tools:context=".MainActivity">
 
     <TextView
@@ -21,18 +21,24 @@
         android:textSize="30dp"
         android:textStyle="bold" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp" >
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/player1"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
         android:background="@drawable/rounded_text"
         android:paddingHorizontal="10dp"
         android:paddingBottom="5dp"
         app:counterEnabled="true"
         app:counterMaxLength="10"
         app:errorEnabled="true"
+        android:layout_marginStart="30dp"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -49,13 +55,13 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_text"
         android:paddingHorizontal="10dp"
         android:paddingBottom="5dp"
         app:counterEnabled="true"
         app:counterMaxLength="10"
         app:errorEnabled="true"
+        android:layout_marginStart="30dp"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -66,6 +72,7 @@
             android:drawableLeft="@drawable/ic_person"
             />
     </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/rounds"
@@ -94,7 +101,7 @@
         android:text="Start"
         android:textSize="20dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/rounded_button"
         android:onClick="startGame"
         />

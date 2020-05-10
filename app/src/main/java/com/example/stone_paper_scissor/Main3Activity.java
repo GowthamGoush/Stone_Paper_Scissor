@@ -12,67 +12,49 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Random;
 
-public class Main2Activity extends AppCompatActivity {
-
-    RelativeLayout relativeLayout;
-    ImageView stone,paper,scissor;
-    TextView playerA,playerB,winner,setName1,setName2,score1,score2,text_round;
+public class Main3Activity extends AppCompatActivity {
+    Random rnd = new Random();
+    int random_num;
     int totalRounds,turn=0,round=0,turnA=0,turnB=0;
     private int scoreA=0,scoreB=0,round_count;
-    public static String  player1name,player2name;
+    TextView winner,setName,score1,score2,text_round;
+    ImageView stone,paper,scissor;
+    RelativeLayout relativeLayout;
     CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main3);
 
-        relativeLayout = findViewById(R.id.background);
+        score1 = findViewById(R.id.score_bot);
+        score2 = findViewById(R.id.score_you);
+        winner = findViewById(R.id.winner2);
+        text_round = findViewById(R.id.text_round_2);
+        setName = findViewById(R.id.setPlayerName);
 
-        stone = findViewById(R.id.stone);
-        paper = findViewById(R.id.paper);
-        scissor = findViewById(R.id.scissor);
+        Intent getName = getIntent();
+        setName.setText(getName.getStringExtra(Main4Activity.Player));
+        totalRounds = getName.getIntExtra(Main4Activity.Rounds_2,0);
 
-        playerA = findViewById(R.id.playerName1);
-        playerB = findViewById(R.id.playerName2);
-        winner = findViewById(R.id.winner);
-        setName1 = findViewById(R.id.setPlayerName1);
-        setName2 = findViewById(R.id.setPlayerName2);
-        text_round = findViewById(R.id.text_round);
+        relativeLayout = findViewById(R.id.single_player_bg);
 
-        Intent intent2 = getIntent();
-        player1name = intent2.getStringExtra(MainActivity.Player1);
-        player2name = intent2.getStringExtra(MainActivity.Player2);
-        totalRounds = intent2.getIntExtra(MainActivity.Rounds,0);
+        botPlay();
 
-        playerA.setText(player1name);
-        playerB.setText(player2name);
-        playerB.setAlpha(0.3f);
-        setName1.setText(player1name);
-        setName2.setText(player2name);
-
-        score1 = findViewById(R.id.score1);
-        score2 = findViewById(R.id.score2);
-
-        score1.setText(Integer.toString(scoreA));
-        score2.setText(Integer.toString(scoreB));
+        stone = findViewById(R.id.stone_2);
+        paper = findViewById(R.id.paper_2);
+        scissor = findViewById(R.id.scissor_2);
 
         stone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(turn==0){
-                    turnA=1;
-                    turn=1;
-                    playerA.setAlpha(0.3f);
-                    playerB.setAlpha(1.0f);
-                }
-                else if(turn==1){
+                if(turn==1){
                     turnB=1;
                     turn=0;
-                    playerA.setAlpha(1.0f);
-                    playerB.setAlpha(0.3f);
                     Score();
+                    botPlay();
                 }
             }
         });
@@ -80,18 +62,11 @@ public class Main2Activity extends AppCompatActivity {
         paper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(turn==0){
-                    turnA=2;
-                    turn=1;
-                    playerA.setAlpha(0.3f);
-                    playerB.setAlpha(1.0f);
-                }
-                else if(turn==1){
+                if(turn==1){
                     turnB=2;
                     turn=0;
-                    playerA.setAlpha(1.0f);
-                    playerB.setAlpha(0.3f);
                     Score();
+                    botPlay();
                 }
             }
         });
@@ -99,29 +74,22 @@ public class Main2Activity extends AppCompatActivity {
         scissor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(turn==0){
-                    turnA=3;
-                    turn=1;
-                    playerA.setAlpha(0.3f);
-                    playerB.setAlpha(1.0f);
-                }
-                else if(turn==1){
+                if(turn==1){
                     turnB=3;
                     turn=0;
-                    playerA.setAlpha(1.0f);
-                    playerB.setAlpha(0.3f);
                     Score();
+                    botPlay();
                 }
             }
         });
 
-        Button retry = findViewById(R.id.retry);
-        final Intent intent = new Intent(this,Main5Activity.class);
+        Button retry = findViewById(R.id.retry_2);
+        final Intent intent3 = new Intent(this,Main5Activity.class);
 
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(intent);
+                startActivity(intent3);
             }
         });
 
@@ -138,23 +106,56 @@ public class Main2Activity extends AppCompatActivity {
         };
     }
 
+    public void botPlay(){
+       random_num = rnd.nextInt(2);
+
+       if(random_num==0){
+           Stone();
+       }
+       else if(random_num==1){
+           Paper();
+       }
+       else {
+           Scissor();
+       }
+    }
+
+    public void Stone(){
+        if(turn==0){
+            turnA=1;
+            turn=1;
+        }
+    }
+    public void Paper(){
+        if(turn==0){
+            turnA=2;
+            turn=1;
+        }
+    }
+    public void Scissor(){
+        if(turn==0){
+            turnA=3;
+            turn=1;
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     public void Score(){
         if((turnA==1 && turnB==1) || (turnA==2 && turnB==2) || (turnA==3 && turnB==3)){
-           scoreA++;
-           scoreB++;
+            scoreA++;
+            scoreB++;
         }
         else if(turnA==1){
-           if(turnB==2){
-               scoreB++;
-               relativeLayout.setBackgroundColor(getResources().getColor(R.color.green));
-               countDownTimer.start();
-           }
-           else if(turnB==3){
-               scoreA++;
-               relativeLayout.setBackgroundColor(getResources().getColor(R.color.red));
-               countDownTimer.start();
-           }
+            if(turnB==2){
+                scoreB++;
+                relativeLayout.setBackgroundColor(getResources().getColor(R.color.green));
+                countDownTimer.start();
+            }
+            else if(turnB==3){
+                scoreA++;
+                relativeLayout.setBackgroundColor(getResources().getColor(R.color.red));
+                countDownTimer.start();
+            }
         }
         else if(turnA==2){
             if(turnB==1){
@@ -189,16 +190,14 @@ public class Main2Activity extends AppCompatActivity {
         }
         if(round==totalRounds){
             turn=3;
-            playerA.setAlpha(0.3f);
-            playerB.setAlpha(0.3f);
             if(scoreA==scoreB){
-               winner.setText("Oops! draw");
+                winner.setText("Oops! draw");
             }
             else if(scoreA>scoreB){
-                winner.setText(player1name + " Wins");
+                winner.setText("You loose !");
             }
             else {
-                winner.setText(player2name + " Wins");
+                winner.setText("You Win !");
             }
         }
     }
